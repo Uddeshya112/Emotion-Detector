@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmotiSense AI — Emotion Detection System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+  <!-- ── Ambient Background ─────────────────────────────────────────────── -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- ── Navbar ─────────────────────────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-text">EmotiSense<span class="brand-ai">AI</span></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#upload-section"   class="nav-link">Upload</a>
+        <a href="#webcam-section"   class="nav-link">Webcam</a>
+        <a href="#dashboard-section" class="nav-link">Dashboard</a>
+        <a href="#history-section"  class="nav-link">History</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <button class="btn btn-sm btn-ghost">Docs</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+
+
+      <h1 class="hero-title fade-in" style="--delay:.1s">
+        <span class="title-line">Detect Human</span>
+        <span class="title-line gradient-text">Emotions</span>
+        <span class="title-line">Instantly</span>
+      </h1>
+
+
+
+      <div class="hero-actions fade-in" style="--delay:.4s">
+        <button class="btn btn-primary ripple" onclick="scrollToSection('#upload-section')">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
+          Upload Image
+        </button>
+        <button class="btn btn-secondary ripple" onclick="scrollToSection('#webcam-section')">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
+          Start Webcam
+        </button>
+      </div>
+
+      <!-- floating emotion chips -->
+      <div class="emotion-chips fade-in" style="--delay:.55s" aria-hidden="true">
+        <span class="chip">😠 Angry</span>
+        <span class="chip">😊 Happy</span>
+        <span class="chip">😢 Sad</span>
+        <span class="chip">😲 Surprise</span>
+        <span class="chip">😨 Fear</span>
+        <span class="chip">🤢 Disgust</span>
+        <span class="chip">😐 Neutral</span>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-in" style="--delay:.3s" aria-hidden="true">
+      <div class="hero-card glass">
+        <div class="hero-card-inner">
+          <div class="face-scan">
+            <div class="scan-ring ring-1"></div>
+            <div class="scan-ring ring-2"></div>
+            <div class="scan-ring ring-3"></div>
+            <div class="scan-icon">🧠</div>
+            <div class="scan-line"></div>
+          </div>
+          <div class="hero-result">
+            <span class="hr-emoji">😊</span>
+            <div>
+              <div class="hr-label">Detected</div>
+              <div class="hr-emotion">Happy</div>
+            </div>
+            <div class="hr-confidence">98.2%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Upload Section ──────────────────────────────────────────────────── -->
+  <section class="section" id="upload-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Image Upload</span>
+        <h2 class="section-title">Analyze Any Face Photo</h2>
+        <p class="section-desc">Drag &amp; drop or click to upload — supports PNG, JPG, WEBP, GIF, BMP</p>
+      </div>
+
+      <div class="upload-grid">
+        <!-- Drop Zone -->
+        <div class="glass card reveal" id="dropZone">
+          <div class="drop-zone-content" id="dropContent">
+            <div class="drop-icon-wrapper">
+              <svg class="drop-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="31" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <path d="M32 20v16M24 28l8-8 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 44h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="drop-title">Drop your image here</p>
+            <p class="drop-sub">or click to browse files</p>
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <button class="btn btn-outline ripple" onclick="document.getElementById('fileInput').click()">
+              Choose File
+            </button>
+          </div>
+
+          <!-- Preview state (hidden by default) -->
+          <div class="drop-preview" id="dropPreview" style="display:none">
+            <img id="previewImg" src="" alt="Preview" />
+            <button class="remove-img" id="removeImg" aria-label="Remove image">✕</button>
+          </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="glass card result-panel reveal" id="resultPanel">
+          <div class="result-idle" id="resultIdle">
+            <div class="idle-icon">🔍</div>
+            <p class="idle-text">Upload an image to see<br />emotion analysis results</p>
+          </div>
+
+          <div class="result-loading" id="resultLoading" style="display:none">
+            <div class="spinner"></div>
+            <p class="loading-text">Analyzing facial features…</p>
+          </div>
+
+          <div class="result-content" id="resultContent" style="display:none">
+            <div class="result-top">
+              <div class="result-emoji" id="uploadEmoji">😊</div>
+              <div class="result-info">
+                <div class="result-label">Primary Emotion</div>
+                <div class="result-emotion" id="uploadEmotion">Happy</div>
+                <div class="result-conf" id="uploadConf">Confidence: 0%</div>
+              </div>
+            </div>
+
+            <!-- Confidence bar -->
+            <div class="conf-bar-wrap">
+              <div class="conf-bar" id="uploadBar" style="--pct:0%"></div>
+            </div>
+
+            <!-- Per-emotion chart -->
+            <div class="score-chart" id="uploadChart"></div>
+
+            <!-- Actions -->
+            <div class="result-actions">
+              <button class="btn btn-sm btn-primary ripple" id="downloadBtn">⬇ Download</button>
+              <button class="btn btn-sm btn-ghost ripple" id="tryAnotherBtn">Try Another</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analyze button -->
+      <div class="analyze-row">
+        <button class="btn btn-primary btn-lg ripple" id="analyzeBtn" disabled>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Analyze Emotion
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Webcam Section ──────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="webcam-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Live Webcam</span>
+        <h2 class="section-title">Real-Time Detection</h2>
+        <p class="section-desc">Point your camera at a face — auto-predicts every 2 seconds</p>
+      </div>
+
+      <div class="webcam-grid">
+        <!-- Video Feed -->
+        <div class="glass card webcam-card reveal">
+          <div class="webcam-idle" id="webcamIdle">
+            <div class="idle-icon">📷</div>
+            <p class="idle-text">Click <strong>Start Camera</strong><br />to begin live detection</p>
+          </div>
+          <video id="webcamVideo" autoplay playsinline muted style="display:none"></video>
+          <canvas id="webcamCanvas" style="display:none"></canvas>
+
+          <div class="webcam-overlay" id="webcamOverlay" style="display:none">
+            <div class="cam-emotion-badge" id="camBadge">
+              <span id="camEmoji">😐</span>
+              <span id="camEmotion">Neutral</span>
+              <span id="camConf">—</span>
+            </div>
+            <div class="cam-scan-frame"></div>
+          </div>
+
+          <div class="webcam-controls">
+            <button class="btn btn-primary ripple" id="startCam">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
+              Start Camera
+            </button>
+            <button class="btn btn-ghost ripple" id="stopCam" disabled>
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"/></svg>
+              Stop Camera
+            </button>
+            <button class="btn btn-secondary ripple" id="captureFrame" disabled>
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+              Capture
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Result -->
+        <div class="glass card webcam-result reveal" id="webcamResult">
+          <h3 class="card-title">Live Analysis</h3>
+
+          <div class="live-emotion" id="liveIdle">
+            <div class="live-emoji pulse" id="liveEmoji">—</div>
+            <div class="live-emotion-name" id="liveEmotionName">Awaiting…</div>
+            <div class="live-conf" id="liveConf"></div>
+          </div>
+
+          <div class="live-bars" id="liveBars"></div>
+
+          <div class="auto-predict-row">
+            <label class="toggle-label">
+              <input type="checkbox" id="autoPredictToggle" checked />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              Auto-predict every 2s
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Dashboard ───────────────────────────────────────────────────────── -->
+  <section class="section" id="dashboard-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Dashboard</span>
+        <h2 class="section-title">System Overview</h2>
+        <p class="section-desc">Real-time model statistics and performance metrics</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">🧠</div>
+          <div class="stat-info">
+            <div class="stat-value">ResNet50</div>
+            <div class="stat-label">Model Architecture</div>
+          </div>
+        </div>
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">🎭</div>
+          <div class="stat-info">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Emotion Classes</div>
+          </div>
+        </div>
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-info">
+            <div class="stat-value">PyTorch</div>
+            <div class="stat-label">Framework</div>
+          </div>
+        </div>
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-info">
+            <div class="stat-value">Flask</div>
+            <div class="stat-label">Backend</div>
+          </div>
+        </div>
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">📐</div>
+          <div class="stat-info">
+            <div class="stat-value">224×224</div>
+            <div class="stat-label">Input Resolution</div>
+          </div>
+        </div>
+        <div class="glass stat-card reveal">
+          <div class="stat-icon">🔢</div>
+          <div class="stat-info">
+            <div class="stat-value" id="totalPreds">0</div>
+            <div class="stat-label">Total Predictions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emotion distribution bar -->
+      <div class="glass card dist-card reveal">
+        <h3 class="card-title">Session Emotion Distribution</h3>
+        <div class="dist-chart" id="distChart">
+          <p class="dist-empty">No predictions yet — upload an image or use your webcam.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── History ──────────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="history-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">History</span>
+        <h2 class="section-title">Prediction Log</h2>
+        <p class="section-desc">Recent predictions stored in your browser session</p>
+      </div>
+
+      <div class="history-controls reveal">
+        <button class="btn btn-ghost btn-sm ripple" id="clearHistory">Clear History</button>
+        <span class="history-count" id="historyCount">0 records</span>
+      </div>
+
+      <div class="history-list reveal" id="historyList">
+        <div class="history-empty" id="historyEmpty">
+          <div class="idle-icon">📋</div>
+          <p>Your prediction history will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ───────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-brand">⬡ EmotiSense<strong>AI</strong></span>
+      <span class="footer-copy"></span>
+    </div>
+  </footer>
+
+  <!-- ── Toast Container ─────────────────────────────────────────────────── -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

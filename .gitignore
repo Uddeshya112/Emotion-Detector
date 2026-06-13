@@ -1,0 +1,7 @@
+# Ignore large model files and generated content
+resnet_emotion.keras
+*.pth
+*.h5
+__pycache__/
+*.pyc
+.DS_Store
