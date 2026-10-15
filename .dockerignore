@@ -1,0 +1,14 @@
+.git
+.github
+__pycache__
+*.py[cod]
+*.h5
+*.keras
+*.pth
+!best_emotion_model.pth
+archive/
+data/
+datasets/
+checkpoints/
+.venv/
+venv/
