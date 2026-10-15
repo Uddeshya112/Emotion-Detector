@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: emotion-detector
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: commit
